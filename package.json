@@ -1,7 +1,7 @@
 {
   "name": "{{name}}",
   "version": "1.0.0",
-  "description": "",
+  "description": "{{description}}",
   "bin": {
     "suporka-parcel-vue": "index.js"
   },
