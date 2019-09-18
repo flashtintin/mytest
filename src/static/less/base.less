@@ -1,0 +1,47 @@
+@import "./variable";
+
+/******** 重置样式 ********/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/******** 通用样式 ********/
+
+/** 清除浮动 **/
+.clearfix {
+    &:after {
+        content: '.';
+        display: block;
+        clear: left;
+        height: 0;
+        overflow: hidden;
+    }
+}
+
+
+//放在父元素上 内联元素垂直居中
+.inline-middle-before {
+    &:before {
+        display: inline-block;
+        height: 100%;
+        content: '';
+        vertical-align: middle;
+    }
+}
+
+.dom-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
