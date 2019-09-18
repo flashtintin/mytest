@@ -6,10 +6,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-const webpackConfig = {
-  entry: [
-    './src/index.js'
-  ],
+module.exports = {
+  entry: ['./src/index.js'],
   module: {
     rules: [
       {
