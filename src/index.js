@@ -32,8 +32,8 @@ Vue.use(myFetch, {
 Vue.use(Vuex);
 
 new Vue({
-  components: { app },
+  el: '#app',
   router,
   store,
-  template: '<app/>',
-}).$mount('#app');
+  render: h => h(app)
+});
