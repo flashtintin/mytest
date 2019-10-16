@@ -9,7 +9,7 @@
     "prebuild": "yarn || npm i && shx rm -rf pkg && shx rm -rf build_temp && shx mkdir build_temp",
     "build": "webpack --config build/webpack.prod.config",
     "postbuild": "shx mv build/dist build_temp && npm run cp-files && cd build_temp && yarn install --production && npm run compressing",
-    "cp-files": "shx cp -r {config,middleware,modules,index.js,favicon.ico,package.json,pm2.json,yarn.lock,Dockerfile,.dockerignore} build_temp",
+    "cp-files": "shx cp -r {config,middleware,modules,index.js,favicon.ico,package.json,pm2.json,Dockerfile,.dockerignore} build_temp",
     "compressing": "cd .. && node compress",
     "predeploy": "yarn || npm i && shx rm -rf build_temp && shx mkdir build_temp",
     "deploy": "yarn build-dist && shx mv build/dist build_temp && npm run cp-files && cd build_temp && yarn install --production && yarn clean-container && yarn clean-images && yarn docker-start",
@@ -19,7 +19,8 @@
     "clean-container": "docker rm -f $(docker ps -a | grep \"$npm_package_name\" | awk \"{print \\$1}\") || true",
     "clean-images": "docker rmi -f $(docker images | grep \"$npm_package_name\" | awk \"{print \\$3}\") || true",
     "build-temp": "docker build -t $npm_package_name:$npm_package_version --no-cache .",
-    "preregistry": "yarn || npm i && shx rm -rf build_temp && shx mkdir build_temp && yarn build-dist && yarn install-temp",
+    "tagimage": "docker tag $npm_package_name:$npm_package_version registry.docker.fe.ioteams.com/gateway/$npm_package_name:$npm_package_version",
+    "preregistry": "cnpm i && shx rm -rf build_temp && shx mkdir build_temp && yarn build-dist && yarn install-temp",
     "registry": "yarn clean-container && yarn clean-images && yarn build-temp",
     "postregistry": "yarn tagimage && docker push registry.docker.fe.ioteams.com/gateway/$npm_package_name:$npm_package_version"
   },

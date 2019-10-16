@@ -2,7 +2,6 @@
  * Created by kid on 2017/5/17.
  */
 import VueRouter from 'vue-router';
-import myFetch from 'vue-fetch-plugin';
 import Login from './login';
 import Error from './error';
 import Home from './home';
