@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
     "build-dist": "webpack --config build/webpack.prod.config",
     "prebuild": "yarn || npm i && shx rm -rf pkg && shx rm -rf build_temp && shx mkdir build_temp",
     "build": "webpack --config build/webpack.prod.config",
