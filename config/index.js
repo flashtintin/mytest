@@ -11,5 +11,6 @@ module.exports = {
     host: '172.19.10.8',
     port: 6379,
     password: 'fewsdkjk13_',
+    ttl: 60 * 120,
   },
 };
