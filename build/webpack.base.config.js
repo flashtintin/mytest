@@ -7,7 +7,7 @@ const Webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  entry: ['@babel/polyfill', './src/index.js'],
+  entry: ['babel-polyfill', './src/index.js'],
   module: {
     rules: [
       {
@@ -17,12 +17,10 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        include: path.resolve(__dirname, '../src'),
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          }
-        }
+        },
       },
       {
         test: /\.(png|jpg|gif)$/,
