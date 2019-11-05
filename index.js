@@ -3,7 +3,6 @@ const bodypaser = require('koa-body');
 const staticCache = require('koa-static-cache');
 const path = require('path');
 const favicon = require('koa-favicon');
-const webpack = require('webpack');
 const router = require('koa-router')();
 const session = require('koa-session2');
 const Store = require('./modules/Store');
@@ -32,6 +31,7 @@ app.use(history({
 app.use(favicon(`${path.join(__dirname)}/favicon.ico`));
 
 if (app.env === 'development') {
+  const webpack = require('webpack');
   const koaWebpack = require('koa-webpack');
   const webpackDevConfig = require('./build/webpack.dev.config');
   const compiler = webpack(webpackDevConfig);
