@@ -25,6 +25,9 @@
     "registry": "yarn clean-container && yarn clean-images && yarn build-temp",
     "postregistry": "yarn tagimage && docker push registry.docker.fe.ioteams.com/gateway/$npm_package_name:$npm_package_version"
   },
+  "lint-staged": {
+    "src/**/*.{js,vue}": "eslint"
+  },
   "keywords": [
     "vue",
     "cli"
