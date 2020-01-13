@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "{{description}}",
   "main": "index.js",
+  "buildtag": "BUILD_TAG",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
@@ -10,20 +11,20 @@
     "prebuild": "yarn || npm i && shx rm -rf pkg && shx rm -rf build_temp && shx mkdir build_temp",
     "build": "webpack --config build/webpack.prod.config",
     "postbuild": "shx mv build/dist build_temp && npm run cp-files && cd build_temp && yarn install --production && npm run compressing",
-    "cp-files": "shx cp -r {config,middleware,modules,index.js,favicon.ico,package.json,pm2.json,Dockerfile,.dockerignore} build_temp",
+    "cp-files": "shx cp -r {config,middleware,modules,index.js,favicon.ico,package.json,pm2.json,Dockerfile,.dockerignore,docker-compose.yml} build_temp",
     "compressing": "cd .. && node compress",
     "predeploy": "yarn || npm i && shx rm -rf build_temp && shx mkdir build_temp",
     "deploy": "yarn build-dist && shx mv build/dist build_temp && npm run cp-files && cd build_temp && yarn install --production && yarn clean-container && yarn clean-images && yarn docker-start",
     "docker-start": "docker build -t $npm_package_name:$npm_package_version --no-cache . && docker run -d -p 3000:3000 $npm_package_name:$npm_package_version",
-    "precommit": "lint-staged",
-    "install-temp": "shx mv build/dist build_temp && yarn cp-files && cd build_temp && yarn install --production",
+    "pre-commit": "lint-staged",
+    "install-temp": "shx mv build/dist build_temp && yarn run cp-files && cd build_temp && yarn install --production",
     "clean-container": "docker rm -f $(docker ps -a | grep \"$npm_package_name\" | awk \"{print \\$1}\") || true",
     "clean-images": "docker rmi -f $(docker images | grep \"$npm_package_name\" | awk \"{print \\$3}\") || true",
     "build-temp": "docker build -t $npm_package_name:$npm_package_version --no-cache .",
-    "tagimage": "docker tag $npm_package_name:$npm_package_version registry.docker.fe.ioteams.com/gateway/$npm_package_name:$npm_package_version",
-    "preregistry": "cnpm i && shx rm -rf build_temp && shx mkdir build_temp && yarn build-dist && yarn install-temp",
-    "registry": "yarn clean-container && yarn clean-images && yarn build-temp",
-    "postregistry": "yarn tagimage && docker push registry.docker.fe.ioteams.com/gateway/$npm_package_name:$npm_package_version"
+    "tagimage": "docker tag $npm_package_name:$npm_package_version $npm_package_buildtag",
+    "preregistry": "yarn || npm i && shx rm -rf build_temp && shx mkdir build_temp",
+    "registry": "yarn build-dist && shx mv build/dist build_temp && npm run cp-files && cd build_temp && yarn install --production && yarn clean-container && yarn clean-images && yarn build-temp",
+    "postregistry": "yarn tagimage && docker push $npm_package_buildtag"
   },
   "lint-staged": {
     "src/**/*.{js,vue}": "eslint"
