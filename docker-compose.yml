@@ -8,6 +8,8 @@ services:
     ports:
       - "3000:3000"
 #   修改volumes :/portal-ops-js/config 前面的路径，改路径即为需要替换的config文件路径，注意，必须是绝对路径
-#   volumes:
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 #     - /Users/kid/工作/项目/江苏省平台/portal-ops-js/config/config:/portal-ops-js/config
     restart: always

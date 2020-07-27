@@ -31,9 +31,10 @@ Vue.use(myFetch, {
 });
 Vue.use(Vuex);
 
+/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(app)
+  render: h => h(app),
 });
