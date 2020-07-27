@@ -6,33 +6,34 @@ const uuidV1 = require('uuid/v1');
 const config = require('../config');
 
 const defaultOptions = {
-  target: ''
+  target: '',
 };
-const getData = opts => new Promise((resolve, reject) => {
-  request(opts, (e, r, body) => {
-    if (!e && body) {
-      resolve(body);
-    } else {
-      reject(e);
-    }
+const getData = opts =>
+  new Promise((resolve, reject) => {
+    request(opts, (e, r, body) => {
+      if (!e && body) {
+        resolve(body);
+      } else {
+        reject(e);
+      }
+    });
   });
-});
 
 module.exports = (context, options = defaultOptions) => async (ctx, next) => {
   const re = new RegExp(`^\\${context}(\\/|\\/\\w+)?`);
   const pass = re.test(ctx.req.url);
 
   if (!pass) return next();
-
+  const url = ctx.req.url.replace(context, options.target);
   const opts = {
     // rejectUnauthorized: false,
     method: ctx.req.method,
-    url: config.api.url,
-    // url,
+    // url: config.api.url + ctx.req.url.replace(/:/g, ''),
+    url,
     json: true,
     headers: {
-      'Content-Type': 'application/json; charset=utf-8'
-    }
+      'Content-Type': 'application/json; charset=utf-8',
+    },
   };
 
   if (ctx.req.method === 'POST') {
